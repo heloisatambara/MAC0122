@@ -41,11 +41,10 @@ pexpr = []
 # creating the expression
 for k in range(len(exprli)-1):
     if exprli[k] == '*' and exprli[k+1] == '*':
-        exprli[k] == '**'
+        exprli[k] = '**'
         del exprli[k+1]
     if '0' < exprli[k][0] < '9':
         exprli[k] = int(exprli[k])
-print(exprli)
 
 for k in range(len(exprli)):
     p = exprli[k]
@@ -66,8 +65,11 @@ for k in range(len(exprli)):
     if pri(p) == 4: # if it's an open parenthesis
          oppile.append(p)
     if pri(p) == 5: # if it's a close parenthesis
-        while len(oppile) > 0 and pri(oppile[-1]) != 4:
+        while len(oppile) > 0:
             pexpr.append(oppile.pop())
+            if pri(oppile[-1]) == 4:
+                oppile.pop()
+                break
          # desempilhe os operadores até o primeiro abre e coloque
          # na pós-fixa na mesma ordem de retirada da pilha;
 
@@ -79,14 +81,14 @@ while len(oppile) > 0:
 #
 
 
-print(pexpr)
+
 # read the expression
-while len(pexpr) > 0:
+while len(pexpr) > 1:
     for k in range(len(pexpr)):
-        if pri(pexpr[k]) != 0:
+        if pri(pexpr[k]) > 0:
             aux = op(pexpr[k-2], pexpr[k], pexpr[k-1])
             pexpr[k-2] = aux
             del pexpr[k-1]
-            del pexpr[k]
+            del pexpr[k-1]
             break
-
+print(pexpr[0])
