@@ -1,11 +1,22 @@
 # Exercício Programa I – MAC 122 – PDA
 # Heloisa Tambara 
 import re
-import fracao
 
+class Pilha:
+    def __init__(self):
+        self._pilha = []
+        
+    def __len__(self):
+        return len(self._pilha)
+    
+    def stack(self, a):
+        self._pilha.append(a)
+        
+    def pop(self):
+        return self._pilha.pop()
 
-t = "(12 + 531 * (42 ** 5 - 21) + 1)"
-
+    def top(self):
+        return self._pilha[-1]
 
 
 def pri(x):
@@ -29,14 +40,14 @@ def op(num1, operator, num2):
         return num1 / num2
     elif operator == '**':
         return num1 ** num2
-
 # starters
 expr = input() # ask for the expression
 exprli = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", expr)
-oppile = []
-numpile = []
+oppile = Pilha()
 pexpr = []
 #
+
+print(exprli)
 
 # creating the expression
 for k in range(len(exprli)-1):
@@ -45,6 +56,7 @@ for k in range(len(exprli)-1):
         del exprli[k+1]
     if '0' < exprli[k][0] < '9':
         exprli[k] = int(exprli[k])
+print(exprli)
 
 for k in range(len(exprli)):
     p = exprli[k]
@@ -52,22 +64,22 @@ for k in range(len(exprli)):
         pexpr.append(exprli[k])
     elif  0 < pri(p) < 4 : # if it's an operator
         while len(oppile) > 0:
-            if 4 > pri(oppile[-1]) >= pri(p):
+            if 4 > pri(oppile.top()) >= pri(p):
                 pexpr.append(oppile.pop())
             else:
                 break
             
-        oppile.append(p)
+        oppile.stack(p)
         # tire da pilha e coloque na pós-fixa todos os operadores
         # com prioridade maior ou igual a p, na mesma ordem de
         # retirada da pilha
         # empilhe p;
     if pri(p) == 4: # if it's an open parenthesis
-         oppile.append(p)
+         oppile.stack(p)
     if pri(p) == 5: # if it's a close parenthesis
         while len(oppile) > 0:
             pexpr.append(oppile.pop())
-            if pri(oppile[-1]) == 4:
+            if pri(oppile.top()) == 4:
                 oppile.pop()
                 break
          # desempilhe os operadores até o primeiro abre e coloque
@@ -82,13 +94,17 @@ while len(oppile) > 0:
 
 
 
+print(pexpr)        
 # read the expression
 while len(pexpr) > 1:
     for k in range(len(pexpr)):
         if pri(pexpr[k]) > 0:
+            print('a')
             aux = op(pexpr[k-2], pexpr[k], pexpr[k-1])
             pexpr[k-2] = aux
             del pexpr[k-1]
             del pexpr[k-1]
+            print(pexpr)
             break
 print(pexpr[0])
+
