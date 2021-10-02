@@ -1,0 +1,103 @@
+def MCD(n1, n2): # func to find max common divider - will be used to simplify the functions
+    rest = n1 % n2
+    while rest != 0:
+        n1 = n2
+        n2 = rest
+        rest = n1 % n2
+    return n2
+    
+class Fractions: # creates the class
+
+    def __init__(self, numerator=0, denominator=1): # define instances
+        self.num = numerator
+        self.den = denominator
+        if denominator == 0:
+            raise ValueError('Denominator can't be 0.')
+        
+        if denominator < 0:
+            self.num = -numerator
+            self.den = -denominator
+            
+    def __add__(self, frac2):
+        dencom = self.den * frac2.den
+        num1 = self.num * frac2.den
+        num2 = frac2.num * self.den
+        return Fração(num1 + num2, dencom)
+        
+    def __sub__(self, frac2):
+        dencom = self.den * frac2.den
+        num1 = self.num * frac2.den
+        num2 = frac2.num * self.den
+        return Fração(num1 - num2, dencom)
+    
+    def __mul__(self, frac2):
+        deno = self.den * frac2.den
+        nume = self.num * frac2.num
+        return Fração(nume, deno)
+        
+    def __truediv__(self, frac2):
+        fr2 = Fração(frac2.den, frac2.num)
+        return self * fr2
+        
+    def __pow__(self, exp):
+        if exp > 0:
+            nume = self.num ** exp
+            deno = self.den ** exp
+        if exp < 0:
+            exp = -exp
+            nume = self.den ** exp
+            deno = self.num ** exp
+        return Fração(nume, deno)
+    
+    def __eq__(self, frac2):
+        fac1 = self.num * frac2.den
+        fac2 = self.den * frac2.num
+        return fac1 == fac2
+    
+    def __ne__(self, frac2):
+        fac1 = self.num * frac2.den
+        fac2 = self.den * frac2.num
+        return fac1 != fac2
+                
+    def __lt__(self, frac2):
+        f1 = self.num / self.den
+        f2 = frac2.num / frac2.den
+        return f1 < f2
+        
+    def __le__(self, frac2):
+        f1 = self.num / self.den
+        f2 = frac2.num / frac2.den
+        return f1 <= f2
+        
+    def __gt__(self, frac2):
+        f1 = self.num / self.den
+        f2 = frac2.num / frac2.den
+        return f1 > f2
+        
+    def __ge__(self, frac2):
+        f1 = self.num / self.den
+        f2 = frac2.num / frac2.den
+        return f1 >= f2
+        
+    def __str__(self): # how fractions print
+        maxdiv = MCD(self.num, self.den)
+        self.num = self.num // maxdiv
+        self.den = self.den // maxdiv
+    
+        if self.den == 1:
+            return str(self.num)
+        else:
+            return str(self.num) + '/' + str(self.den)
+
+
+
+if __name__ == "__main__":
+    
+   x = Fractions(-2, -8)
+   y = Fractions(1, -2)
+   z = x + y
+   print(z)
+   print(x < y or x < z)
+   print(y - z * x)
+   print(x ** 3)
+   print(x * y + z)
