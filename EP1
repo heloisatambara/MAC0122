@@ -1,6 +1,5 @@
 # Exercício Programa I – MAC 122 – PDA
-# Heloisa Tambara Paiva
-# NUSP: 12556819
+# Heloisa Tambara 
 import re
 import fracao
 
@@ -46,18 +45,17 @@ for k in range(len(exprli)-1):
         del exprli[k+1]
     if '0' < exprli[k][0] < '9':
         exprli[k] = int(exprli[k])
+print(exprli)
 
 for k in range(len(exprli)):
     p = exprli[k]
     if type(p) == int: # if it's a number
-        numpile.append(exprli[k])
-    elif pri(p) != 0: # if it's an operator
-        c = -1
+        pexpr.append(exprli[k])
+    elif  0 < pri(p) < 4 : # if it's an operator
         while len(oppile) > 0:
-            if pri(oppile[-1]) >= pri(p):
+            if 4 > pri(oppile[-1]) >= pri(p):
                 pexpr.append(oppile.pop())
             else:
-                c -= 1
                 break
             
         oppile.append(p)
@@ -65,26 +63,28 @@ for k in range(len(exprli)):
         # com prioridade maior ou igual a p, na mesma ordem de
         # retirada da pilha
         # empilhe p;
-    if pri(p) == 4:
+    if pri(p) == 4: # if it's an open parenthesis
          oppile.append(p)
-    if pri(p) == 5:
+    if pri(p) == 5: # if it's a close parenthesis
         while len(oppile) > 0 and pri(oppile[-1]) != 4:
-            pexpr.append(oppile.pop(-1))
+            pexpr.append(oppile.pop())
          # desempilhe os operadores até o primeiro abre e coloque
          # na pós-fixa na mesma ordem de retirada da pilha;
 
-c = -1
+
 while len(oppile) > 0:
-    pexpr.pop(oppile[c])
-    c -= 1
+    pexpr.append(oppile.pop())
+
 # desempilhe todos os operadores que ainda estão na pilha e coloque na pós-fixa na mesma ordem de retirada da pilha
 #
+
+
 print(pexpr)
 # read the expression
 while len(pexpr) > 0:
     for k in range(len(pexpr)):
         if pri(pexpr[k]) != 0:
-            aux = op(pexpr[k-1], pexpr[k], pexpr[k-2])
+            aux = op(pexpr[k-2], pexpr[k], pexpr[k-1])
             pexpr[k-2] = aux
             del pexpr[k-1]
             del pexpr[k]
