@@ -2,23 +2,6 @@
 # Heloisa Tambara 
 import re
 
-class Pilha:
-    def __init__(self):
-        self._pilha = []
-        
-    def __len__(self):
-        return len(self._pilha)
-    
-    def stack(self, a):
-        self._pilha.append(a)
-        
-    def pop(self):
-        return self._pilha.pop()
-
-    def top(self):
-        return self._pilha[-1]
-
-
 def pri(x):
     if x == '+': return 1
     elif x == '-': return 1
