@@ -42,69 +42,75 @@ def op(num1, operator, num2):
         return num1 ** num2
 
 # starters
-expr = input() # ask for the expression
-exprli = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", expr)
-oppile = Pilha()
-pexpr = []
-#
+# starters
+
+# expr = input() # ask for the expression
+
+def TraduzPosFixa(expr):
+    exprli = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", expr)
+    oppile = Pilha()
+    pexpr = []
+
+    # creating the expression
+    for k in range(len(exprli)-1): # transforma os simbolos de potencia num só
+        if exprli[k] == '*' and exprli[k+1] == '*':
+            exprli[k] = '**'
+            del exprli[k+1]
+
+    for k in range(len(exprli)): # transforma as strings de numero em int
+        if '0' < exprli[k][0] < '9':
+            exprli[k] = int(exprli[k])
 
 
-# creating the expression
-for k in range(len(exprli)-1):
-    if exprli[k] == '*' and exprli[k+1] == '*':
-        exprli[k] = '**'
-        del exprli[k+1]
-    if '0' < exprli[k][0] < '9':
-        exprli[k] = int(exprli[k])
-
-
-for k in range(len(exprli)):
-    p = exprli[k]
-    if type(p) == int: # if it's a number
-        pexpr.append(exprli[k])
-    elif  0 < pri(p) < 4 : # if it's an operator
-        while len(oppile) > 0:
-            if 4 > pri(oppile.top()) >= pri(p):
-                pexpr.append(oppile.pop())
-            else:
-                break
+    for k in range(len(exprli)):
+        p = exprli[k]
+        if type(p) == int: # if it's a number
+            pexpr.append(exprli[k])
+        elif  0 < pri(p) < 4 : # if it's an operator
+            while len(oppile) > 0:
+                if 4 > pri(oppile.top()) >= pri(p):
+                    pexpr.append(oppile.pop())
+                else:
+                    break
             
-        oppile.stack(p)
+            oppile.stack(p)
         # tire da pilha e coloque na pós-fixa todos os operadores
         # com prioridade maior ou igual a p, na mesma ordem de
         # retirada da pilha
         # empilhe p;
-    if pri(p) == 4: # if it's an open parenthesis
-         oppile.stack(p)
-    if pri(p) == 5: # if it's a close parenthesis
-        while len(oppile) > 0:
-            pexpr.append(oppile.pop())
-            if pri(oppile.top()) == 4:
-                oppile.pop()
-                break
-         # desempilhe os operadores até o primeiro abre e coloque
-         # na pós-fixa na mesma ordem de retirada da pilha;
+        if pri(p) == 4: # if it's an open parenthesis
+            oppile.stack(p)
+        if pri(p) == 5: # if it's a close parenthesis
+            while len(oppile) > 0:
+                pexpr.append(oppile.pop())
+                if pri(oppile.top()) == 4:
+                    oppile.pop()
+                    break
 
 
-while len(oppile) > 0:
-    pexpr.append(oppile.pop())
+    while len(oppile) > 0:
+        pexpr.append(oppile.pop())
+    
+    return pexpr
 
-# desempilhe todos os operadores que ainda estão na pilha e coloque na pós-fixa na mesma ordem de retirada da pilha
-#
-print(pexpr)   
 
-for k in range(len(pexpr)):
-    if type(pexpr[k]) == int:
-        pexpr[k] = Fração(pexpr[k])
+def CalculaPosFixa(listaexp):
+    pexpr = TraduzPosFixa(listaexp)
+    for k in range(len(pexpr)):
+        if type(pexpr[k]) == int:
+            pexpr[k] = Fração(pexpr[k])
 
      
-# read the expression
-while len(pexpr) > 1:
-    for k in range(len(pexpr)):
-        if pri(pexpr[k]) > 0:
-            aux = op(pexpr[k-2], pexpr[k], pexpr[k-1])
-            pexpr[k-2] = aux
-            del pexpr[k-1]
-            del pexpr[k-1]
-            break
-print(pexpr[0])
+    # read the expression
+    while len(pexpr) > 1:
+        for k in range(len(pexpr)):
+            if pri(pexpr[k]) > 0:
+                aux = op(pexpr[k-2], pexpr[k], pexpr[k-1])
+                pexpr[k-2] = aux
+                del pexpr[k-1]
+                del pexpr[k-1]
+                break
+    return pexpr[0]
+
+print(TraduzPosFixa(t))
+print(CalculaPosFixa(t))
