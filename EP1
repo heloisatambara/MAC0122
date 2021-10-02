@@ -1,0 +1,92 @@
+# Exercício Programa I – MAC 122 – PDA
+# Heloisa Tambara Paiva
+# NUSP: 12556819
+import re
+import fracao
+
+
+t = "(12 + 531 * (42 ** 5 - 21) + 1)"
+
+
+
+def pri(x):
+    if x == '+': return 1
+    elif x == '-': return 1
+    elif x == '*': return 2
+    elif x == '/': return 2
+    elif x == '**': return 3
+    elif x == '(': return 4 # caso particular
+    elif x == ')': return 5 # caso particular
+    else: return 0 # não é operador
+
+def op(num1, operator, num2):
+    if operator == '+':
+        return num1 + num2
+    elif operator == '-':
+        return num1 - num2
+    elif operator == '*':
+        return num1 * num2
+    elif operator == '/':
+        return num1 / num2
+    elif operator == '**':
+        return num1 ** num2
+
+# starters
+expr = input() # ask for the expression
+exprli = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", expr)
+oppile = []
+numpile = []
+pexpr = []
+#
+
+# creating the expression
+for k in range(len(exprli)-1):
+    if exprli[k] == '*' and exprli[k+1] == '*':
+        exprli[k] == '**'
+        del exprli[k+1]
+    if '0' < exprli[k][0] < '9':
+        exprli[k] = int(exprli[k])
+
+for k in range(len(exprli)):
+    p = exprli[k]
+    if type(p) == int: # if it's a number
+        numpile.append(exprli[k])
+    elif pri(p) != 0: # if it's an operator
+        c = -1
+        while len(oppile) > 0:
+            if pri(oppile[-1]) >= pri(p):
+                pexpr.append(oppile.pop())
+            else:
+                c -= 1
+                break
+            
+        oppile.append(p)
+        # tire da pilha e coloque na pós-fixa todos os operadores
+        # com prioridade maior ou igual a p, na mesma ordem de
+        # retirada da pilha
+        # empilhe p;
+    if pri(p) == 4:
+         oppile.append(p)
+    if pri(p) == 5:
+        while len(oppile) > 0 and pri(oppile[-1]) != 4:
+            pexpr.append(oppile.pop(-1))
+         # desempilhe os operadores até o primeiro abre e coloque
+         # na pós-fixa na mesma ordem de retirada da pilha;
+
+c = -1
+while len(oppile) > 0:
+    pexpr.pop(oppile[c])
+    c -= 1
+# desempilhe todos os operadores que ainda estão na pilha e coloque na pós-fixa na mesma ordem de retirada da pilha
+#
+print(pexpr)
+# read the expression
+while len(pexpr) > 0:
+    for k in range(len(pexpr)):
+        if pri(pexpr[k]) != 0:
+            aux = op(pexpr[k-1], pexpr[k], pexpr[k-2])
+            pexpr[k-2] = aux
+            del pexpr[k-1]
+            del pexpr[k]
+            break
+
