@@ -1,0 +1,30 @@
+ # Exercício 2 - MAC 122 - PDA
+ # Heloísa Tambara
+ # NUSP: 12556819
+ 
+def Hanoi(n, torreA, torreB, torreAux):
+    if n == 1:
+        # mover disco 1 da torreA para a torreB
+        Movimente(1, torreA, torreB)
+    else:
+        # n - 1 discos da torreA para torreAux com torreB auxiliar
+        Hanoi(n - 1, torreA, torreAux, torreB)
+        # mover disco n da torreA para torreB
+        Movimente(n, torreA, torreB)
+        # n - 1 discos da torreAux para a torreB com torreA auxiliar
+        Hanoi(n - 1, torreAux, torreB, torreA)
+        
+        
+def Movimente(k, origem, destino):
+    print("mover disco ", k, " da torre ", origem, " para a torre ", destino)
+
+def graphicMoves():
+    
+    print('A\tB\tC')
+    
+    
+# Exemplos de chamadas
+print("\n* * * Movimentar 2 discos * * *")
+Hanoi(2, 0, 1, 2)
+print("\n* * * Movimentar 3 discos * * *")
+Hanoi(3, 0, 1, 2)
