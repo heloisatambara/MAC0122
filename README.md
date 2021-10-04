@@ -15,3 +15,7 @@
 # Transformar strings de expressões (ex: (2 + 1) ** 2 / 5 - 2) em expressão de notação pós-fixa e calcular o resultado. Usadas as classes fractions e pile.
 # Transform strings of expressions (ex: (2 + 1) ** 2 / 5 - 2) in postfix expressions and give the result. Classes fractions and pile were used.
 
+
+# Hanoi Tower
+# Mostrar uma solução em texto e gráfica para o problema da Torre de Hanoi.
+# Show a solution in text and graphics for the problem of the Hanoi Tower.
