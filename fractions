@@ -49,14 +49,12 @@ class fraction: # creates the class
         return self * fr2
         
     def __pow__(self, exp): # power operation
-        if exp == 0:
-            return fraction(1, 1)
         if type(exp) == fraction:
             exp = exp.num / exp.den
-        if exp > 0:
+        if exp >= 0:
             nume = self.num ** exp
             deno = self.den ** exp
-        if exp < 0:
+        if exp <= 0:
             exp = -exp
             nume = self.den ** exp
             deno = self.num ** exp
