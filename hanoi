@@ -2,19 +2,20 @@
  # Heloísa Tambara
  # NUSP: 12556819
  
-def Hanoi(n, torreA, torreB, torreAux, isfirst = True):
-    if isfirst == True:
+def Hanoi(n, torreA, torreB, torreAux, isfirst = True): # o último parametro diferencia as chamadas recursivas das chamadas do usuário
+    if isfirst == True: # cria uma lista dos estados e adiciona todos os discos na primeira torre
         global st
+        d = '\u2588'
         stA, stB, stC = [], [], []
         st = [stA, stB, stC]
         for k in range(1, n+1):
             stA.append(k)
             stB.append(0)
             stC.append(0)
-            print(f'{k}')
+            print(f'\t{k * d}')
         else:
-            stA.sort(reverse=True)
-            print('A\tB\tC')
+            stA.sort(reverse=True) # acerta a ordem dos discos
+            print('\t0\t\t1\t\t2')
 
         
     if n == 1:
@@ -29,36 +30,33 @@ def Hanoi(n, torreA, torreB, torreAux, isfirst = True):
         Hanoi(n - 1, torreAux, torreB, torreA, False)
         
         
+        
 def Movimente(k, origem, destino, st):
     print("mover disco ", k, " da torre ", origem, " para a torre ", destino)
     for i in range(len(st[0])):
-        if st[origem][i] == k:
+        if st[origem][i] == k: # acha o disco na origem e retira
             st[origem][i] = 0
     for i in range(len(st[0])):        
-        if st[destino][i] == 0:
+        if st[destino][i] == 0: # coloca o disco na primeira posição da torre destino que não está ocupada
             st[destino][i] = k
-            break
-            
+            break       
     graphMove(st)
 
+
+
 def graphMove(l):
+    d = '\u2588'
     for k in range(len(l[0])-1, -1, -1):
         print()
         for j in range(3):
             if l[j][k] == 0:
-                print(' \t', end='')
+                print(' \t\t', end='') # deixando sempre a altura para caber os n discos, printa um espaço no lugar se não houver discos, e o número do disco se houver discos
             else:
-                print(f'{l[j][k]}\t', end='')
+                print(f'\t{l[j][k]*d}\t', end='')
     else:
-        print('\nA\tB\tC')
+        print('\n\t0\t\t1\t\t2')
     
 
 
- # Exemplos de chamadas
-print("\n* * * Movimentar 2 discos * * *")
 
-Hanoi(2, 0, 1, 2)
-print("\n* * * Movimentar 3 discos * * *")
-
-Hanoi(3, 0, 1, 2)
 
