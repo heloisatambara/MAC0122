@@ -29,7 +29,7 @@ def Hanoi(n, torreA, torreB, torreAux, isfirst = True): # o último parametro di
          # n - 1 discos da torreAux para a torreB com torreA auxiliar
         Hanoi(n - 1, torreAux, torreB, torreA, False)
         
-        
+         
         
 def Movimente(k, origem, destino, st):
     print("mover disco ", k, " da torre ", origem, " para a torre ", destino)
