@@ -2,26 +2,57 @@
  # Heloísa Tambara
  # NUSP: 12556819
  
+isFirst = 1
 def Hanoi(n, torreA, torreB, torreAux):
+    global isFirst
+    if isFirst == 1:
+        global dic
+        A, B, C = torreA, torreB, torreAux
+        dicA, dicB, dicC = {}, {}, {}
+        dic = {A: dicA,
+               B: dicB,
+               C: dicC}
+        global N
+        N = n # guarda o valor inicial de n para a movimentação
+        for k in range(1, N+1):
+            dicA.update({k: True})
+            dicB.update({k: False})
+            dicC.update({k: False})
+            print(f'{k}\n')
+        else:
+            print('A\tB\tC')
+        isFirst = 0 # não rodará na chamada recursiva
+        
     if n == 1:
-        # mover disco 1 da torreA para a torreB
+         # mover disco 1 da torreA para a torreB
         Movimente(1, torreA, torreB)
     else:
-        # n - 1 discos da torreA para torreAux com torreB auxiliar
+         # n - 1 discos da torreA para torreAux com torreB auxiliar
         Hanoi(n - 1, torreA, torreAux, torreB)
-        # mover disco n da torreA para torreB
+         # mover disco n da torreA para torreB
         Movimente(n, torreA, torreB)
-        # n - 1 discos da torreAux para a torreB com torreA auxiliar
+         # n - 1 discos da torreAux para a torreB com torreA auxiliar
         Hanoi(n - 1, torreAux, torreB, torreA)
         
         
 def Movimente(k, origem, destino):
     print("mover disco ", k, " da torre ", origem, " para a torre ", destino)
+    dic[origem][k] = False
+    dic[destino][k] = True
+    
+    
+
+
+
+
 
     
-    
-# Exemplos de chamadas
+
+
+ # Exemplos de chamadas
 print("\n* * * Movimentar 2 discos * * *")
-Hanoi(2, 0, 1, 2)
+isFirst = 1
+Hanoi(2, 'A', 'B', 'C')
 print("\n* * * Movimentar 3 discos * * *")
-Hanoi(3, 0, 1, 2)
+isFirst = 1
+Hanoi(3, 'A', 'B', 'C')
