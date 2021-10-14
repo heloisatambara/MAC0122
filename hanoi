@@ -2,44 +2,53 @@
  # Heloísa Tambara
  # NUSP: 12556819
  
-isFirst = 1
-def Hanoi(n, torreA, torreB, torreAux):
-    global isFirst
-    if isFirst == 1:
-        global dic
-        A, B, C = torreA, torreB, torreAux
-        dicA, dicB, dicC = {}, {}, {}
-        dic = {A: dicA,
-               B: dicB,
-               C: dicC}
-        global N
-        N = n # guarda o valor inicial de n para a movimentação
-        for k in range(1, N+1):
-            dicA.update({k: True})
-            dicB.update({k: False})
-            dicC.update({k: False})
+def Hanoi(n, torreA, torreB, torreAux, isfirst = True):
+    if isfirst == True:
+        global st
+        stA, stB, stC = [], [], []
+        st = [stA, stB, stC]
+        for k in range(1, n+1):
+            stA.append(k)
+            stB.append(0)
+            stC.append(0)
             print(f'{k}\n')
         else:
+            
             print('A\tB\tC')
-        isFirst = 0 # não rodará na chamada recursiva
+
         
     if n == 1:
          # mover disco 1 da torreA para a torreB
-        Movimente(1, torreA, torreB)
+        Movimente(1, torreA, torreB, st)
     else:
          # n - 1 discos da torreA para torreAux com torreB auxiliar
-        Hanoi(n - 1, torreA, torreAux, torreB)
+        Hanoi(n - 1, torreA, torreAux, torreB, False)
          # mover disco n da torreA para torreB
-        Movimente(n, torreA, torreB)
+        Movimente(n, torreA, torreB, st)
          # n - 1 discos da torreAux para a torreB com torreA auxiliar
-        Hanoi(n - 1, torreAux, torreB, torreA)
+        Hanoi(n - 1, torreAux, torreB, torreA, False)
         
         
-def Movimente(k, origem, destino):
+def Movimente(k, origem, destino, st):
     print("mover disco ", k, " da torre ", origem, " para a torre ", destino)
-    dic[origem][k] = False
-    dic[destino][k] = True
-    
+    for i in range(len(st[0])):
+        if st[origem][i] == k:
+            st[origem][i] = 0
+        if st[destino][i] == 0:
+            st[destino][i] = k
+            
+    graphMove(st)
+
+def graphMove(l):
+    for k in range(len(l[0])-1, -1, -1):
+        print()
+        for j in range(3):
+            if l[j][k] == 0:
+                print(' \t', end='')
+            else:
+                print(f'{l[j][k]}\t', end='')
+    else:
+        print('A\tB\tC')
     
 
 
@@ -51,8 +60,8 @@ def Movimente(k, origem, destino):
 
  # Exemplos de chamadas
 print("\n* * * Movimentar 2 discos * * *")
-isFirst = 1
-Hanoi(2, 'A', 'B', 'C')
+
+Hanoi(2, 0, 1, 2)
 print("\n* * * Movimentar 3 discos * * *")
-isFirst = 1
-Hanoi(3, 'A', 'B', 'C')
+
+Hanoi(3, 0, 1, 2)
