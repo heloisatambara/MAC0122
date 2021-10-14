@@ -18,9 +18,6 @@ def Hanoi(n, torreA, torreB, torreAux):
 def Movimente(k, origem, destino):
     print("mover disco ", k, " da torre ", origem, " para a torre ", destino)
 
-def graphicMoves():
-    
-    print('A\tB\tC')
     
     
 # Exemplos de chamadas
