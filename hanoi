@@ -11,9 +11,9 @@ def Hanoi(n, torreA, torreB, torreAux, isfirst = True):
             stA.append(k)
             stB.append(0)
             stC.append(0)
-            print(f'{k}\n')
+            print(f'{k}')
         else:
-            
+            stA.sort(reverse=True)
             print('A\tB\tC')
 
         
@@ -34,8 +34,10 @@ def Movimente(k, origem, destino, st):
     for i in range(len(st[0])):
         if st[origem][i] == k:
             st[origem][i] = 0
+    for i in range(len(st[0])):        
         if st[destino][i] == 0:
             st[destino][i] = k
+            break
             
     graphMove(st)
 
@@ -48,13 +50,7 @@ def graphMove(l):
             else:
                 print(f'{l[j][k]}\t', end='')
     else:
-        print('A\tB\tC')
-    
-
-
-
-
-
+        print('\nA\tB\tC')
     
 
 
@@ -65,3 +61,4 @@ Hanoi(2, 0, 1, 2)
 print("\n* * * Movimentar 3 discos * * *")
 
 Hanoi(3, 0, 1, 2)
+
