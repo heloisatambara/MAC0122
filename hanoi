@@ -58,9 +58,9 @@ def main():
         n = input('Quantos discos na sua torre? obs.: 0 para o programa. ')
         try:
             n = int(n)
-            break
+            if n == 0: return
+            return Hanoi(n, 0, 1, 2)
         except: print('Digite um número inteiro') 
-    if n == 0: return
-    return Hanoi(n, 0, 1, 2)
+    
 
 main()
