@@ -59,7 +59,7 @@ def main():
         try:
             n = int(n)
             if n == 0: return
-            return Hanoi(n, 0, 1, 2)
+            Hanoi(n, 0, 1, 2)
         except: print('Digite um número inteiro') 
     
 
