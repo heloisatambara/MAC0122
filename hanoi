@@ -53,12 +53,14 @@ def graphMove(l):
         print('\nA\tB\tC')
     
 
+def main():
+    while True:
+        n = input('Quantos discos na sua torre? obs.: 0 para o programa. ')
+        try:
+            n = int(n)
+            break
+        except: print('Digite um número inteiro') 
+    if n == 0: return
+    return Hanoi(n, 0, 1, 2)
 
- # Exemplos de chamadas
-print("\n* * * Movimentar 2 discos * * *")
-
-Hanoi(2, 0, 1, 2)
-print("\n* * * Movimentar 3 discos * * *")
-
-Hanoi(3, 0, 1, 2)
-
+main()
