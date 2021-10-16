@@ -46,17 +46,29 @@ def Movimente(k, origem, destino, st):
 
 def graphMove(l):
     d = '\u2588'
-    for k in range(len(l[0])-1, -1, -1):
+    t = '\t'
+    n = len(l[0])
+    for k in range(n-1, -1, -1):
         print()
         for j in range(3):
             if l[j][k] == 0:
-                print(' \t\t', end='') # deixando sempre a altura para caber os n discos, printa um espaço no lugar se não houver discos, e o número do disco se houver discos
+                print((n//2)*t, end='') # deixando sempre a altura para caber os n discos, printa um espaço no lugar se não houver discos, e o número do disco se houver discos
             else:
-                print(f'\t{l[j][k]*d}\t', end='')
+                print(f'{l[j][k]*d}{(n//2)*t}', end='')
     else:
-        print('\n\t0\t\t1\t\t2')
+        print(f'\n0{(n//2)*t}1{(n//2)*t}2')
     
 
+def main():
+    while True:
+        n = input('Quantos discos na sua torre? obs.: 0 para o programa. ')
+        try:
+            n = int(n)
+            if n == 0: return
+            Hanoi(n, 0, 1, 2)
+        except: print('Digite um número inteiro') 
+    
 
+main()
 
 
