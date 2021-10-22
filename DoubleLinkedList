@@ -80,17 +80,19 @@ class ListaDuplamenteLigada:
         # Mantém a ordem crescente.
         novo = LA._Node(x, None, None)
         if LA.is_empty():
-            LA._inicio = novo
+            LA._inicio = LA._final = novo
             LA._tamanho += 1
             return
         p = LA._inicio
-        while p._info >= x: # para quando p for menor que x, para adicionar o novo nó após p
+        while p._info <= x: # para quando p for menor que x, para adicionar o novo nó após p
             if p._prox == None:
-                novo._prox = LA._inicio
-                LA._inicio._prev = novo
-                LA._inicio = novo
+                novo._prev = LA._final
+                LA._final._prox = novo
+                LA._final = novo
                 LA._tamanho += 1
                 return
+            if p._prox._info > x:
+                break
             p = p._prox
         
         novo._prev = p
@@ -104,6 +106,7 @@ class ListaDuplamenteLigada:
             raise Empty('Lista Vazia')
         # Remove todos os elementos com info == x da lista duplamente ligada LA.
         # Estarão contíguos
+        
         p = LA._inicio
         while p._info != x: # para quando a info do p é x
             anterior = p # guarda anterior a x
@@ -126,7 +129,7 @@ class ListaDuplamenteLigada:
         print('Imprimindo a lista duplamente ligada:')
         print('Nó\t  Anterior\t  Informação\tPosterior')
         count = 1
-        while count <= LA._tamanho:
+        while p != None:
             
             if p._prev == None:
                 anterior = 'None'
