@@ -19,3 +19,8 @@
 # Hanoi Tower
 # Mostrar uma solução em texto e gráfica para o problema da Torre de Hanoi.
 # Show a solution in text and graphics for the problem of the Hanoi Tower.
+
+
+# Double Linked List
+# Construa uma classe (class DoubleLinkedList) que define e manipula um objeto Lista Duplamente Ligada.
+# Construct a class (class DoubleLinkedList) that defines and manipulate an object Double Linked List.
