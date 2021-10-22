@@ -1,47 +1,119 @@
+class Empty(Exception):
+    pass
+
 class ListaDuplamenteLigada:
 
     ''' operações sobre uma lista duplamente ligada. '''
     # classe _Node - interna
     class _Node:
-    __slots__ = '_info', '_prev', '_prox'
+        __slots__ = '_info', '_prev', '_prox'
 
-    def __init__ (self, info, prev, prox):
-    # inicia os campos
-        self._info = info
-        self._prev = prev
-        self._prox = prox
+
+        def __init__ (self, info, prev, prox):
+         # inicia os campos
+            self._info = info
+            self._prev = prev
+            self._prox = prox
+
 
     # métodos de lista duplamente ligada
     def __init__ (self):
-    ''' cria uma lista circular vazia.'''
+        ''' cria uma lista circular vazia.'''
         self._inicio = self._Node(None, None, None) # vazia
         self._final = self._Node(None, None, None) # vazia
         self._inicio._prox = self._final
         self._final._prev = self._inicio
         self._tamanho = 0 # tamanho da lista
+
+
     def __len__(self):
         ''' retorna o tamanho da pilha.'''
         return self._tamanho
+
+
     def is_empty(self):
         ''' retorna True se pilha vazia'''
         return self._tamanho == 0
+
+
     def adicionar_entre(self, e, anterior, sucessor):
-    ''' adiciona elemento entre 2 outros.
-    retorna o novo nó.'''
+        ''' adiciona elemento entre 2 outros.
+        retorna o novo nó.'''
         novo = self._Node(e, anterior, sucessor)
         anterior._prox = novo
         sucessor._prev = novo
         self._tamanho += 1
         return novo
 
+
     def remove(self, node):
-    ''' remove nó da lista e retorna seu valor.'''
+        ''' remove nó da lista e retorna seu valor.'''
         anterior = node._prev
-        sucessor = node,_prox
+        sucessor = node._prox
         anterior._prox = sucessor
         sucessor._prev = anterior
         self._tamanho -= 1
         val = node._info # guarda a informação
-    # inative o nó
+        # inative o nó
         node._prev = node._prox = node._info = None
         return val
+
+    def Conta(LA, x):
+        # devolve quantos nós da lista duplamente ligada LA com info == x.
+        count = 0
+        p = LA._inicio
+        while p != None:
+            if p._info == x:
+                count += 1
+            p = p._prox
+            return count
+
+
+    def Adiciona(LA, x):
+        # Adiciona novo elemento com info == x na lista duplamente ligada LA.
+        # Mantém a ordem crescente.
+        novo = LA._Node(x, )
+        pass
+
+    def Remove(LA, x):
+        if LA.is_empty():
+            raise Empty('Lista Vazia')
+        # Remove todos os elementos com info == x da lista duplamente ligada LA.
+        # Estarão contíguos
+        p = LA._inicio
+        while p._info != x: # para quando a info do p é x
+            anterior = p # guarda anterior a x
+            p = p._prox
+        while p._prox._info == x:
+            anterior._prox = p._prox._prox
+            p = p._prox 
+            
+        
+
+    def __str__(LA):
+        # Mostra os elementos da lista duplamente ligada.
+        # Mostra também o anterior e o sucessor.
+        if LA.is_empty():
+            print('Lista Vazia')
+            return 
+        p = LA._inicio
+        print('Imprimindo a lista duplamente ligada:')
+        print('Nó\tAnterior\tInformação\tPosterior')
+        count = 1
+        while p != None:
+            print('%-5s %-11s %-13s' %(f'{count}', f'{p}', f'{p._prox}', f'{p._prox._prox}'))
+            p = p._prox
+
+
+
+if '__name__' == '__main__':
+    LA = ListaDuplamenteLigada
+    ListaDuplamenteLigada.Adiciona(LA, 'exaurida')
+    ListaDuplamenteLigada.Adiciona(LA, 'exausta')
+    ListaDuplamenteLigada.Adiciona(LA, 'unhuda')
+    ListaDuplamenteLigada.Adiciona(LA, 'exaurida')
+    ListaDuplamenteLigada.Adiciona(LA, 'saltuda')
+    print(ListaDuplamenteLigada.Conta(LA, 'exaurida'))
+    print(LA)
+    ListaDuplamenteLigada.Remove(LA, 'exaurida')
+    print(LA)
