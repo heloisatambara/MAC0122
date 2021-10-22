@@ -5,13 +5,6 @@ class ListaDuplamenteLigada:
 
     ''' operações sobre uma lista duplamente ligada. '''
     # classe _Node - interna
-class Empty(Exception):
-    pass
-
-class ListaDuplamenteLigada:
-
-    ''' operações sobre uma lista duplamente ligada. '''
-    # classe _Node - interna
     class _Node:
         __slots__ = '_info', '_prev', '_prox'
 
@@ -93,7 +86,11 @@ class ListaDuplamenteLigada:
         p = LA._inicio
         while p._info >= x: # para quando p for menor que x, para adicionar o novo nó após p
             if p._prox == None:
-                break
+                novo._prox = LA._inicio
+                LA._inicio._prev = novo
+                LA._inicio = novo
+                LA._tamanho += 1
+                return
             p = p._prox
         
         novo._prev = p
@@ -142,6 +139,7 @@ class ListaDuplamenteLigada:
             print('%-5s %-11s %-13s %s' %(f'{count}', f'{anterior}', f'{p._info}', f'{posterior}'))
             p = p._prox
             count += 1
+        return ''
                 
 
 
@@ -151,10 +149,13 @@ if __name__ == '__main__':
     LA = ListaDuplamenteLigada()
     print('a')
     LA.Adiciona('exaurida')
-    print('b')
+    print(LA)
     LA.Adiciona('exausta')
+    print(LA)
     LA.Adiciona('unhuda')
+    print(LA)
     LA.Adiciona('exaurida')
+    print(LA)
     LA.Adiciona('saltuda')
     print(LA.Conta('exaurida'))
     print(LA)
