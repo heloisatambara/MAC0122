@@ -5,6 +5,13 @@ class ListaDuplamenteLigada:
 
     ''' operações sobre uma lista duplamente ligada. '''
     # classe _Node - interna
+class Empty(Exception):
+    pass
+
+class ListaDuplamenteLigada:
+
+    ''' operações sobre uma lista duplamente ligada. '''
+    # classe _Node - interna
     class _Node:
         __slots__ = '_info', '_prev', '_prox'
 
@@ -21,8 +28,6 @@ class ListaDuplamenteLigada:
         ''' cria uma lista circular vazia.'''
         self._inicio = self._Node(None, None, None) # vazia
         self._final = self._Node(None, None, None) # vazia
-        self._inicio._prox = self._final
-        self._final._prev = self._inicio
         self._tamanho = 0 # tamanho da lista
 
 
@@ -60,20 +65,42 @@ class ListaDuplamenteLigada:
 
     def Conta(LA, x):
         # devolve quantos nós da lista duplamente ligada LA com info == x.
+        if LA.is_empty():
+            raise Empty('Lista Vazia')
         count = 0
         p = LA._inicio
-        while p != None:
+        while p != None: # roda a lista até acabar
             if p._info == x:
-                count += 1
+                count += 1 # adiciona um a cada vez que acha um x
             p = p._prox
-            return count
+            if p._prev._info == x and p._info != x: # para quando já passou os x: estão ordenados
+                return count
+            
+            
+        else:
+            print(f'{x} não está na lista.')
+            return
 
 
     def Adiciona(LA, x):
         # Adiciona novo elemento com info == x na lista duplamente ligada LA.
         # Mantém a ordem crescente.
-        novo = LA._Node(x, )
-        pass
+        novo = LA._Node(x, None, None)
+        if LA.is_empty():
+            LA._inicio = novo
+            LA._tamanho += 1
+            return
+        p = LA._inicio
+        while p._info >= x: # para quando p for menor que x, para adicionar o novo nó após p
+            if p._prox == None:
+                break
+            p = p._prox
+        
+        novo._prev = p
+        novo._prox = p._prox
+        p._prox = novo
+        LA._tamanho += 1
+        
 
     def Remove(LA, x):
         if LA.is_empty():
@@ -84,36 +111,52 @@ class ListaDuplamenteLigada:
         while p._info != x: # para quando a info do p é x
             anterior = p # guarda anterior a x
             p = p._prox
-        while p._prox._info == x:
-            anterior._prox = p._prox._prox
-            p = p._prox 
-            
+        while p._prox._info == x: # para quando p chega no último x
+            p._info = p._prev = None # invalida a informação  o anterior - o próximo ainda será usado para percorrer a lista
+            anterior._prox = p._prox._prox # muda o anterior ao primeiro x para o primeiro sucessor do ultimo x
+            p, p._prox = p._prox, None # invalida o nó e passa para o próximo
+        LA._tamanho -= 1
+
+        
         
 
     def __str__(LA):
         # Mostra os elementos da lista duplamente ligada.
         # Mostra também o anterior e o sucessor.
         if LA.is_empty():
-            print('Lista Vazia')
-            return 
+            return 'lista vazia'
         p = LA._inicio
         print('Imprimindo a lista duplamente ligada:')
-        print('Nó\tAnterior\tInformação\tPosterior')
+        print('Nó\t  Anterior\t  Informação\tPosterior')
         count = 1
-        while p != None:
-            print('%-5s %-11s %-13s' %(f'{count}', f'{p}', f'{p._prox}', f'{p._prox._prox}'))
+        while count <= LA._tamanho:
+            
+            if p._prev == None:
+                anterior = 'None'
+            else:
+                anterior = p._prev._info
+            if p._prox == None:
+                posterior = 'None'
+            else:
+                posterior = p._prox._info
+            print('%-5s %-11s %-13s %s' %(f'{count}', f'{anterior}', f'{p._info}', f'{posterior}'))
             p = p._prox
+            count += 1
+                
 
 
 
-if '__name__' == '__main__':
-    LA = ListaDuplamenteLigada
-    ListaDuplamenteLigada.Adiciona(LA, 'exaurida')
-    ListaDuplamenteLigada.Adiciona(LA, 'exausta')
-    ListaDuplamenteLigada.Adiciona(LA, 'unhuda')
-    ListaDuplamenteLigada.Adiciona(LA, 'exaurida')
-    ListaDuplamenteLigada.Adiciona(LA, 'saltuda')
-    print(ListaDuplamenteLigada.Conta(LA, 'exaurida'))
+
+if __name__ == '__main__':
+    LA = ListaDuplamenteLigada()
+    print('a')
+    LA.Adiciona('exaurida')
+    print('b')
+    LA.Adiciona('exausta')
+    LA.Adiciona('unhuda')
+    LA.Adiciona('exaurida')
+    LA.Adiciona('saltuda')
+    print(LA.Conta('exaurida'))
     print(LA)
-    ListaDuplamenteLigada.Remove(LA, 'exaurida')
+    LA.Remove('exaurida')
     print(LA)
