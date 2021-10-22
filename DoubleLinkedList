@@ -108,18 +108,28 @@ class ListaDuplamenteLigada:
         # Estarão contíguos
         
         p = LA._inicio
-        while p._info != x: # para quando a info do p é x
-            anterior = p # guarda anterior a x
+        i = 0
+        while True:
+            if p._info == x:
+                anterior = p._prev
+                while p._info == x:
+                    p = p._prox
+                    i += 1
+                    if p == None:
+                        break
+                posterior = p
+                if anterior == None:
+                    LA._inicio = posterior
+                else:
+                    anterior._prox = posterior
+                    if posterior != None:
+                        posterior._prev = anterior
+                break
             p = p._prox
-        while p._prox._info == x: # para quando p chega no último x
-            p._info = p._prev = None # invalida a informação  o anterior - o próximo ainda será usado para percorrer a lista
-            anterior._prox = p._prox._prox # muda o anterior ao primeiro x para o primeiro sucessor do ultimo x
-            p, p._prox = p._prox, None # invalida o nó e passa para o próximo
-        LA._tamanho -= 1
-
-        
-        
-
+        else:
+            print(f'{x} não está na lista.')
+                    
+                
     def __str__(LA):
         # Mostra os elementos da lista duplamente ligada.
         # Mostra também o anterior e o sucessor.
@@ -127,7 +137,7 @@ class ListaDuplamenteLigada:
             return 'lista vazia'
         p = LA._inicio
         print('Imprimindo a lista duplamente ligada:')
-        print('Nó\t  Anterior\t  Informação\tPosterior')
+        print('\nNó\t  Anterior\t  Informação\tPosterior')
         count = 1
         while p != None:
             
