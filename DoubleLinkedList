@@ -66,7 +66,7 @@ class ListaDuplamenteLigada:
             if p._info == x:
                 count += 1 # adiciona um a cada vez que acha um x
             p = p._prox
-            if p._prev._info == x and p._info != x: # para quando já passou os x: estão ordenados
+            if p == None or p._prev._info == x and p._info != x: # para quando já passou os x: estão ordenados
                 return count
             
             
@@ -84,6 +84,11 @@ class ListaDuplamenteLigada:
             LA._tamanho += 1
             return
         p = LA._inicio
+        if p._info >= x:
+            LA._inicio = novo
+            novo._prox = p
+            p._prev = novo
+            return
         while p._info <= x: # para quando p for menor que x, para adicionar o novo nó após p
             if p._prox == None:
                 novo._prev = LA._final
@@ -126,8 +131,11 @@ class ListaDuplamenteLigada:
                         posterior._prev = anterior
                 break
             p = p._prox
-        else:
-            print(f'{x} não está na lista.')
+            if p == None:
+                print(f'{x} não está na lista.')
+                break
+        return i
+            
                     
                 
     def __str__(LA):
@@ -137,7 +145,7 @@ class ListaDuplamenteLigada:
             return 'lista vazia'
         p = LA._inicio
         print('Imprimindo a lista duplamente ligada:')
-        print('\nNó\t  Anterior\t  Informação\tPosterior')
+        print('\nNó    Anterior    Informação    Posterior')
         count = 1
         while p != None:
             
