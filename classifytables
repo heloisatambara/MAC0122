@@ -35,14 +35,27 @@ possibilidades: 123, 132, 213, 231, 321, 312
 '''
 
  # bolha
-def Bolha(a):
-    n = len(a)
+def Bolha(a, p=(0,1,2)): 
     # i = 1, 2, ..., n - 1
-    for i in range(1, n):
+    for i in range(1, len(a)):
     # sobe com a[i] até encontrar o lugar adequado
         j = i
-        while j > 0 and a[j] < a[j - 1]:
-            # troca com o seu vizinho
+        while j > 0 and a[j][p[0]] < a[j - 1][p[0]]:
+            if a[j][p[0]] == a[j - 1][p[0]]:
+                if a[j][p[1]] == a[j - 1][p[1]]:
+                    while j > 0 and a[j][p[1]] < a[j - 1][p[1]]:
+                        # troca com o seu vizinho
+                        a[j], a[j - 1] = a[j - 1], a[j]
+                        # continua subindo
+                        j = j - 1
+                        # troca com o seu vizinho
+                while j > 0 and a[j][p[1]] < a[j - 1][p[1]]:
+                    # troca com o seu vizinho
+                    a[j], a[j - 1] = a[j - 1], a[j]
+                    # continua subindo
+                    j = j - 1
+                    # troca com o seu vizinho
+                    
             a[j], a[j - 1] = a[j - 1], a[j]
             # continua subindo
             j = j - 1
