@@ -21,15 +21,41 @@ def func(arq):
  # função para definir as prioridades
 def clasf(clas):
     k = clas % 10 # ultimo digito 
-    j = (clas - k) % 100 # segundo
-    i = clas - k - j # primeiro
-    return (i, j, k)
+    j = (clas - k) % 100 // 10 # segundo
+    i = (clas - k - j*10) // 100 # primeiro
+    return (i-1, j-1, k-1)
 
                
                 
 #
 
-
+ # sort
+def classort(tab, p = (0,1,2)):
+    if p[0] == 0:
+        if p[1] == 1:
+            def func(elem):
+                return(elem[0],elem[1],elem[2])  
+        elif p[1] == 2:
+            def func(elem):
+                return(elem[0],elem[2],elem[1])  
+    elif p[0] == 1:
+        if p[1] == 0:
+            def func(elem):
+                return(elem[1],elem[0],elem[2])  
+        elif p[1] == 2:
+            def func(elem):
+                return(elem[1],elem[2],elem[0])  
+    elif p[0] == 2:
+        if p[1] == 1:
+            def func(elem):
+                return(elem[2],elem[1],elem[0])  
+        elif p[1] == 0:
+            def func(elem):
+                return(elem[2],elem[0],elem[1])  
+            
+    tab.sort(key=func)
+    return
+#
 
 
 
@@ -120,64 +146,44 @@ def Quick_Sort(lista, inicio, fim, p=(0,1,2)):
 def main():
     while True:
          # Pedir o nome do arquivo de origem (‘fim’: break)
-        arq =  'arq.txt' #input('Nome do arquivo de origem: ')
+        arq = input('Nome do arquivo de origem: ')
         if arq == 'fim': break
         else: arq = open(arq, 'r')
-
          # Ler o arquivo de origem e colocar em TAB (já com split(‘,’) dos campos)
         TAB = func(arq)
-        TAB1, TAB2 = TAB[:], TAB[:] # TAB1 = TAB2 = TAB  (2 cópias de TAB)
 
         while True:
+            TAB0, TAB1, TAB2 = TAB[:], TAB[:], TAB[:] # TAB1 = TAB2 = TAB  (2 cópias de TAB)123
              # Pedir a ordem (número inteiro que seja permutação de 123) (‘fim’: break)
-            clas = '123' # input('Ordem de classificação: ')
+            clas = input('Ordem de classificação: ')
             if clas == 'fim': break
             else:
                 clas = int(clas)
                 clas = clasf(clas)
-            if clas == (1,2,3):
-                def pri(elem):
-                    return (elem[1-1], elem[2-1], elem[3-1])                
-            elif clas == (1,3,2):
-                def pri(elem):                               
-                    return (elem[1-1], elem[3-1], elem[2-1])                
-            elif clas == (2,1,3):                
-                def pri(elem):                
-                    return (elem[2-1], elem[1-1], elem[3-1])
-            elif clas == (2,3,1):                                
-                def pri(elem):                
-                    return (elem[2-1], elem[3-1], elem[1-1])                
-            elif clas == (3,1,2):                
-                def pri(elem):                
-                    return (elem[3-1], elem[1-1], elem[2-1])                
-            elif clas == (3,2,1):                
-                def pri(elem):                
-                    return (elem[3-1], elem[2-1], elem[1-1])
-
-
+                print(clas)
 
              # ClassificarSort(TAB, ordem) – cronometrar e mostrar o tempo gasto
             tsort1 = time()
-            TAB.sort(key=pri)
+            classort(TAB0, clas)
             tsort2 = time()
             print('Tempo de classificação Sort() =', tsort2 - tsort1)
 
              # ClassificarBolha(TAB1, ordem) – cronometrar e mostrar o tempo gasto
             tbol1 = time()
-            TAB1 = TAB1.Bolha()
+            Bolha(TAB1, clas)
             tbol2 = time()
             print('Tempo de classificação Bolha =', tbol2 - tbol1 )
              # Comparar TAB1 com TAB para ver se classificou corretamente
-            if TAB1 == TAB: print('*** Classificação correta')
+            if TAB1 == TAB0: print('*** Classificação correta')
             else: print('*** Classificação incorreta.')
 
              # ClassificarQuick(TAB2, ordem) – cronometrar e mostrar o tempo gasto
             tq1 = time()
-            TAB2 = TAB2.Quick_sort()
+            Quick_Sort(TAB2, 0, len(TAB2)-1,  clas)
             tq2 = time()
             print('Tempo de classificação do Quick =', tq2 - tq1)
              # Comparar TAB2 com TAB para ver se classificou corretamente
-            if TAB2 == TAB: print('*** Classificação correta')
+            if TAB2 == TAB0: print('*** Classificação correta')
             else: print('*** Classificação incorreta.')
 #
 
