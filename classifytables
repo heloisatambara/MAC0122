@@ -1,0 +1,57 @@
+while True:
+    # Pedir o nome do arquivo de origem (‘fim’: break)
+    #Ler o arquivo de origem e colocar em TAB (já com split(‘,’) dos campos)
+    TAB1 = TAB2 = TAB (2 cópias de TAB)
+    while True:
+        #Pedir a ordem (número inteiro que seja permutação de 123) (‘fim’: break)
+        #ClassificarSort(TAB, ordem) – cronometrar e mostrar o tempo gasto
+        #ClassificarBolha(TAB1, ordem) – cronometrar e mostrar o tempo gasto
+        #Comparar TAB1 com TAB para ver se classificou corretamente
+        #ClassificarQuick(TAB2, ordem) – cronometrar e mostrar o tempo gasto
+        #Comparar TAB2 com TAB para ver se classificou corretamente
+
+
+
+
+
+
+
+
+arq = input('Nome do arquivo: ')
+clas = input('Ordem de clasificação: ')
+
+'''
+1 - id
+2 - nome
+3 - data
+'''
+
+ # bolha
+def Bolha(a):
+    n = len(a)
+    # i = 1, 2, ..., n - 1
+    for i in range(1, n):
+    # sobe com a[i] até encontrar o lugar adequado
+        j = i
+        while j > 0 and a[j] < a[j - 1]:
+        # troca com o seu vizinho
+        a[j], a[j - 1] = a[j - 1], a[j]
+        # continua subindo
+        j = j - 1
+ #
+
+
+ # quick
+def Quick_Sort(lista, inicio, fim):
+    # Se a lista tem mais de um elemento, ela será
+    # particionada e as duas partições serão classificadas
+    # pelo mesmo método Quick Sort
+    if inicio < fim:
+        k = particiona(lista, inicio, fim)
+        Quick_Sort(lista, inicio, k - 1)
+        Quick_Sort(lista, k + 1, fim)
+ #
+
+
+ # sort
+sort(key=lambda)
