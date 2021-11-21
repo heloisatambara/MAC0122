@@ -1,32 +1,31 @@
-while True:
-    # Pedir o nome do arquivo de origem (‘fim’: break)
-    #Ler o arquivo de origem e colocar em TAB (já com split(‘,’) dos campos)
-    TAB1 = TAB2 = TAB (2 cópias de TAB)
-    while True:
-        #Pedir a ordem (número inteiro que seja permutação de 123) (‘fim’: break)
-        #ClassificarSort(TAB, ordem) – cronometrar e mostrar o tempo gasto
-        #ClassificarBolha(TAB1, ordem) – cronometrar e mostrar o tempo gasto
-        #Comparar TAB1 com TAB para ver se classificou corretamente
-        #ClassificarQuick(TAB2, ordem) – cronometrar e mostrar o tempo gasto
-        #Comparar TAB2 com TAB para ver se classificou corretamente
+from time import time
 
-
-
-
+ # função para leitura dos arquivos
 def func(arq):
-    matriz = [] #declaro um segundo vetor
+    matriz = [] #declaro vetor
     texto = arq.readlines() #quebra as linhas do arquivo em vetores 
     
-    for i in range(len(texto)):          #esse for percorre a posições dp vetor texto
-        texto[i] = texto[i].replace('\n', '')
-        matriz.append(texto[i].split(','))  #aqui eu quebro nos espaços das palavras
+    for i in range(len(texto)):  # percorre os vetores
+        texto[i] = texto[i].replace('\n', '')  # tira os '\n'
+        matriz.append(texto[i].split(','))  # quebra nas vírgulas
         
     return matriz
+#
+
+
+ # função para definir as prioridades
+
+
+def pri(elem, clas):
+    k = clas % 10 # ultimo digito 
+    j = (clas - k) % 100 # segundo
+    i = clas - k - j # primeiro
+    return [elem[i-1], elem[j-1], elem[k-1]]
+#
 
 
 
-arq = open(input('Nome do arquivo: '), 'r')
-clas = input('Ordem de clasificação: ')
+
 
 '''
 1 - id
@@ -43,14 +42,31 @@ def Bolha(a):
     # sobe com a[i] até encontrar o lugar adequado
         j = i
         while j > 0 and a[j] < a[j - 1]:
-        # troca com o seu vizinho
-        a[j], a[j - 1] = a[j - 1], a[j]
-        # continua subindo
-        j = j - 1
- #
+            # troca com o seu vizinho
+            a[j], a[j - 1] = a[j - 1], a[j]
+            # continua subindo
+            j = j - 1
+#
 
 
  # quick
+def particiona(lista, inicio, fim):
+    # Particiona a lista de lista{inicio] até lista[fim]
+    i, j = inicio, fim
+    # Direção - dir == 1 esquerda-direita e dir == -1 ao contrário
+    dir = 1
+    while i < j:
+        if lista[i] > lista[j]:
+            lista[i], lista[j] = lista[j], lista[i]
+            # muda a direção
+            dir = - dir
+         # incrementa i ou decrementa j
+        if dir == 1: i = i + 1
+        else: j = j - 1
+    # Devolve o índice do elemento pivô
+    return i
+
+
 def Quick_Sort(lista, inicio, fim):
     # Se a lista tem mais de um elemento, ela será
     # particionada e as duas partições serão classificadas
@@ -62,5 +78,50 @@ def Quick_Sort(lista, inicio, fim):
  #
 
 
- # sort
-sort(key=lambda)
+
+ # rodar programa
+def main():
+    while True:
+         # Pedir o nome do arquivo de origem (‘fim’: break)
+        arq = input('Nome do arquivo de origem: ')
+        if arq == 'fim': break
+        else: arq = open(arq, 'r')
+
+         # Ler o arquivo de origem e colocar em TAB (já com split(‘,’) dos campos)
+        TAB = func(arq)
+        TAB1, TAB2 = TAB[:], TAB[:] # TAB1 = TAB2 = TAB  (2 cópias de TAB)
+
+        while True:
+             # Pedir a ordem (número inteiro que seja permutação de 123) (‘fim’: break)
+            clas = input('Ordem de classificação: ')
+            if clas == 'fim': break
+            else: clas = int(clas)
+
+             # ClassificarSort(TAB, ordem) – cronometrar e mostrar o tempo gasto
+            tsort1 = time()
+            TAB = TAB.sort(key=pri(TAB, clas))
+            tsort2 = time()
+            print('Tempo de classificação Sort() =', tsort2 - tsort1)
+
+             # ClassificarBolha(TAB1, ordem) – cronometrar e mostrar o tempo gasto
+            tbol1 = time()
+            TAB1 = TAB1.Bolha()
+            tbol2 = time()
+            print('Tempo de classificação Bolha =', tbol2 - tbol1 )
+             # Comparar TAB1 com TAB para ver se classificou corretamente
+            if TAB1 == TAB: print('*** Classificação correta')
+            else: print('*** Classificação incorreta.')
+
+             # ClassificarQuick(TAB2, ordem) – cronometrar e mostrar o tempo gasto
+            tq1 = time()
+            TAB2 = TAB2.Quick_sort()
+            tq2 = time()
+            print('Tempo de classificação do Quick =', tq2 - tq1)
+             # Comparar TAB2 com TAB para ver se classificou corretamente
+            if TAB2 == TAB: print('*** Classificação correta')
+            else: print('*** Classificação incorreta.')
+#
+
+# caminho: E:\usp\programacoes\mac\arq.txt
+
+main()
