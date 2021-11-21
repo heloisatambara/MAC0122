@@ -12,7 +12,9 @@ def func(arq):
      # tratando as datas
     for i in range(len(matriz)):
         matriz[i][2] = matriz[i][2].split('/')
-        matriz[i][2].sort(reverse=True)
+        matriz[i][2] = matriz[i][2][::-1]
+        for j in range(len(matriz[i])):
+            matriz[i][2][j] = int(matriz[i][2][j])
         
     return matriz
 #
@@ -60,14 +62,6 @@ def classort(tab, p = (0,1,2)):
 
 
 '''
-while j > 0 and tab[priority[0]][j] < tab[priority[0]][j - 1]:
-            # troca com o seu vizinho
-            tab[priority[0]][j], tab[priority[0]][j - 1] = tab[priority[0]][j - 1], tab[priority[0]][j]
-            # continua subindo
-            j = j - 1
-
-
-
 1 - id
 2 - nome
 3 - data
@@ -80,25 +74,25 @@ def Bolha(a, p=(0,1,2)):
     for i in range(1, len(a)):
     # sobe com a[i] até encontrar o lugar adequado
         j = i
-        while j > 0 and a[j][p[0]] < a[j - 1][p[0]]:
-            if a[j][p[0]] == a[j - 1][p[0]]:
-                if a[j][p[1]] == a[j - 1][p[1]]:
-                    while j > 0 and a[j][p[1]] < a[j - 1][p[1]]:
-                        # troca com o seu vizinho
-                        a[j], a[j - 1] = a[j - 1], a[j]
-                        # continua subindo
-                        j = j - 1
-                        # troca com o seu vizinho
-                while j > 0 and a[j][p[1]] < a[j - 1][p[1]]:
+        while j > 0 and a[j][p[0]] < a[j - 1][p[0]]: 
+            # troca com o seu vizinho
+            a[j], a[j - 1] = a[j - 1], a[j]
+            # continua subindo
+            j = j - 1
+            
+        if a[j][p[0]] == a[j - 1][p[0]]: # se o primeiro for igual
+            while j > 0 and a[j][p[1]] < a[j - 1][p[1]] and a[j][p[0]] == a[j - 1][p[0]]:
                     # troca com o seu vizinho
                     a[j], a[j - 1] = a[j - 1], a[j]
                     # continua subindo
                     j = j - 1
-                    # troca com o seu vizinho
-                    
-            a[j], a[j - 1] = a[j - 1], a[j]
-            # continua subindo
-            j = j - 1
+        
+            if a[j][p[1]] == a[j - 1][p[1]]: # se o segundo for igual
+                    while j > 0 and a[j][p[2]] < a[j - 1][p[2]] and a[j][p[1]] == a[j - 1][p[1]]:
+                        # troca com o seu vizinho
+                        a[j], a[j - 1] = a[j - 1], a[j]
+                        # continua subindo
+                        j = j - 1
 #
 
 
@@ -151,6 +145,7 @@ def main():
         else: arq = open(arq, 'r')
          # Ler o arquivo de origem e colocar em TAB (já com split(‘,’) dos campos)
         TAB = func(arq)
+        #print(TAB[0:20])
 
         while True:
             TAB0, TAB1, TAB2 = TAB[:], TAB[:], TAB[:] # TAB1 = TAB2 = TAB  (2 cópias de TAB)123
@@ -173,15 +168,21 @@ def main():
             Bolha(TAB1, clas)
             tbol2 = time()
             print('Tempo de classificação Bolha =', tbol2 - tbol1 )
+            #print(TAB1[0:5])
              # Comparar TAB1 com TAB para ver se classificou corretamente
             if TAB1 == TAB0: print('*** Classificação correta')
-            else: print('*** Classificação incorreta.')
+            else:
+                print('*** Classificação incorreta.')
+                for i in range(len(TAB1)):
+                    if TAB0[i] != TAB1[i]:
+                        print(TAB1[i])
 
              # ClassificarQuick(TAB2, ordem) – cronometrar e mostrar o tempo gasto
             tq1 = time()
             Quick_Sort(TAB2, 0, len(TAB2)-1,  clas)
             tq2 = time()
             print('Tempo de classificação do Quick =', tq2 - tq1)
+            #print(TAB2[0:5])
              # Comparar TAB2 com TAB para ver se classificou corretamente
             if TAB2 == TAB0: print('*** Classificação correta')
             else: print('*** Classificação incorreta.')
