@@ -13,17 +13,26 @@ while True:
 
 
 
+def func(arq):
+    matriz = [] #declaro um segundo vetor
+    texto = arq.readlines() #quebra as linhas do arquivo em vetores 
+    
+    for i in range(len(texto)):          #esse for percorre a posições dp vetor texto
+        texto[i] = texto[i].replace('\n', '')
+        matriz.append(texto[i].split(','))  #aqui eu quebro nos espaços das palavras
+        
+    return matriz
 
 
 
-
-arq = input('Nome do arquivo: ')
+arq = open(input('Nome do arquivo: '), 'r')
 clas = input('Ordem de clasificação: ')
 
 '''
 1 - id
 2 - nome
 3 - data
+possibilidades: 123, 132, 213, 231, 321, 312
 '''
 
  # bolha
