@@ -8,19 +8,25 @@ def func(arq):
     for i in range(len(texto)):  # percorre os vetores
         texto[i] = texto[i].replace('\n', '')  # tira os '\n'
         matriz.append(texto[i].split(','))  # quebra nas vírgulas
+
+     # tratando as datas
+    for i in range(len(matriz)):
+        matriz[i][2] = matriz[i][2].split('/')
+        matriz[i][2].sort(reverse=True)
         
     return matriz
 #
 
 
  # função para definir as prioridades
-
-
-def pri(elem, clas):
+def clasf(clas):
     k = clas % 10 # ultimo digito 
     j = (clas - k) % 100 # segundo
     i = clas - k - j # primeiro
-    return [elem[i-1], elem[j-1], elem[k-1]]
+    return (i, j, k)
+
+               
+                
 #
 
 
@@ -28,6 +34,14 @@ def pri(elem, clas):
 
 
 '''
+while j > 0 and tab[priority[0]][j] < tab[priority[0]][j - 1]:
+            # troca com o seu vizinho
+            tab[priority[0]][j], tab[priority[0]][j - 1] = tab[priority[0]][j - 1], tab[priority[0]][j]
+            # continua subindo
+            j = j - 1
+
+
+
 1 - id
 2 - nome
 3 - data
@@ -63,16 +77,26 @@ def Bolha(a, p=(0,1,2)):
 
 
  # quick
-def particiona(lista, inicio, fim):
+def particiona(lista, inicio, fim, p):
     # Particiona a lista de lista{inicio] até lista[fim]
     i, j = inicio, fim
     # Direção - dir == 1 esquerda-direita e dir == -1 ao contrário
     dir = 1
     while i < j:
-        if lista[i] > lista[j]:
+        if lista[i][p[0]] > lista[j][p[0]]:
             lista[i], lista[j] = lista[j], lista[i]
             # muda a direção
             dir = - dir
+        elif lista[i][p[0]] == lista[j][p[0]]: 
+            if lista[i][p[1]] > lista[j][p[1]]:
+                lista[i], lista[j] = lista[j], lista[i]
+                # muda a direção
+                dir = - dir
+            elif lista[i][p[1]] == lista[j][p[1]]:
+                if lista[i][p[2]] > lista[j][p[2]]:
+                    lista[i], lista[j] = lista[j], lista[i]
+                    # muda a direção
+                    dir = - dir
          # incrementa i ou decrementa j
         if dir == 1: i = i + 1
         else: j = j - 1
@@ -80,14 +104,14 @@ def particiona(lista, inicio, fim):
     return i
 
 
-def Quick_Sort(lista, inicio, fim):
+def Quick_Sort(lista, inicio, fim, p=(0,1,2)):
     # Se a lista tem mais de um elemento, ela será
     # particionada e as duas partições serão classificadas
     # pelo mesmo método Quick Sort
     if inicio < fim:
-        k = particiona(lista, inicio, fim)
-        Quick_Sort(lista, inicio, k - 1)
-        Quick_Sort(lista, k + 1, fim)
+        k = particiona(lista, inicio, fim,  p)
+        Quick_Sort(lista, inicio, k - 1, p)
+        Quick_Sort(lista, k + 1, fim, p)
  #
 
 
@@ -96,7 +120,7 @@ def Quick_Sort(lista, inicio, fim):
 def main():
     while True:
          # Pedir o nome do arquivo de origem (‘fim’: break)
-        arq = input('Nome do arquivo de origem: ')
+        arq =  'arq.txt' #input('Nome do arquivo de origem: ')
         if arq == 'fim': break
         else: arq = open(arq, 'r')
 
@@ -106,13 +130,35 @@ def main():
 
         while True:
              # Pedir a ordem (número inteiro que seja permutação de 123) (‘fim’: break)
-            clas = input('Ordem de classificação: ')
+            clas = '123' # input('Ordem de classificação: ')
             if clas == 'fim': break
-            else: clas = int(clas)
+            else:
+                clas = int(clas)
+                clas = clasf(clas)
+            if clas == (1,2,3):
+                def pri(elem):
+                    return (elem[1-1], elem[2-1], elem[3-1])                
+            elif clas == (1,3,2):
+                def pri(elem):                               
+                    return (elem[1-1], elem[3-1], elem[2-1])                
+            elif clas == (2,1,3):                
+                def pri(elem):                
+                    return (elem[2-1], elem[1-1], elem[3-1])
+            elif clas == (2,3,1):                                
+                def pri(elem):                
+                    return (elem[2-1], elem[3-1], elem[1-1])                
+            elif clas == (3,1,2):                
+                def pri(elem):                
+                    return (elem[3-1], elem[1-1], elem[2-1])                
+            elif clas == (3,2,1):                
+                def pri(elem):                
+                    return (elem[3-1], elem[2-1], elem[1-1])
+
+
 
              # ClassificarSort(TAB, ordem) – cronometrar e mostrar o tempo gasto
             tsort1 = time()
-            TAB = TAB.sort(key=pri(TAB, clas))
+            TAB.sort(key=pri)
             tsort2 = time()
             print('Tempo de classificação Sort() =', tsort2 - tsort1)
 
@@ -138,3 +184,4 @@ def main():
 # caminho: E:\usp\programacoes\mac\arq.txt
 
 main()
+
