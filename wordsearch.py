@@ -1,3 +1,4 @@
+
 from time import time
 
 def bpNORMAL(a, b):
@@ -6,7 +7,7 @@ def bpNORMAL(a, b):
     for k in range(n - m + 1):
         i, j = 0, k
         while i < m:
-            print(i, j)
+            # print(i, j)
             if a[i] != b[j]: break
             i, j = i + 1, j + 1
         if i == m: conta += 1
@@ -37,15 +38,25 @@ def bpBM1(a, b):
         k = k + m - ult[ord(b[k+1])]
     return conta
 
+
+def func(arq):
+    texto = arq.read() #quebra as linhas do arquivo em vetores 
+    # for i in range(len(texto)):  # percorre os vetores
+    #     texto[i] = texto[i].replace('\n', '')  # tira os '\n'
+    return texto
+
+
 def main():
     while True:
-        b = input('Entre com o nome do arquivo de texto (# para fechar o programa): ')
-        if b =='#':
+        arq = input('Entre com o nome do arquivo de texto (# para fechar o programa): ')
+        if arq =='#':
             break
-        b = open(arq, 'r')
+        arq = open(arq, 'r')
+        b = func(arq)
         while True:
             a = input('Entre com a palavra a procurar (# para escolher outro arquivo): ')
             if a == '#':
+                arq.close()
                 break
             t0 = time()
             co = b.count(a)
@@ -59,3 +70,6 @@ def main():
             bm = bpBM1(a, b)
             tb = time() - t0
             print(f'count: Encontrada {bm} vezes em {tb} segundos.')
+    return
+
+main()
