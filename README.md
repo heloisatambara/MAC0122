@@ -24,3 +24,7 @@
 # Double Linked List
 # Construa uma classe (class DoubleLinkedList) que define e manipula um objeto Lista Duplamente Ligada.
 # Construct a class (class DoubleLinkedList) that defines and manipulate an object Double Linked List.
+
+# classify tables
+# Dado um arquivo de texto, onde cada linha é um item dividido em subclasses id, nome e data de nascimento, classificar em ordem crescente por cada subclasse escolhida pelo usuário, utilizando diferentes métodos e comparando o tempo de execução.
+# Given a .txt with lines divided by classes (id, name and birthday), classify the list by the class chosen by the user, comparing different classifying methods and its execution time.
