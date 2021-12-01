@@ -1,7 +1,4 @@
- # Exercício 2 - MAC 122 - PDA
- # Heloísa Tambara
- # NUSP: 12556819
- 
+
 def Hanoi(n, torreA, torreB, torreAux, isfirst = True):
     if isfirst == True:
         global st
