@@ -13,7 +13,7 @@ def primo(a):
 
 
 def hash(x, M):
-    return ... # valor da função
+    return x % M # valor da função
 
 
 def hash2():
