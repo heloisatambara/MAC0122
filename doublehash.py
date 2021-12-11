@@ -1,3 +1,15 @@
+ # função para leitura dos arquivos
+def func(arq):
+    matriz = [] #declaro vetor
+    texto = arq.readlines() #quebra as linhas do arquivo em vetores 
+    
+    for i in range(len(texto)):  # percorre os vetores
+        texto[i] = texto[i].replace('\n', '')  # tira os '\n'
+        matriz.append(texto[i].split(','))  # quebra nas vírgulas
+        
+    return matriz
+
+
 def primo(a):
     a = int(a)
     divisores = []
@@ -59,3 +71,20 @@ def busca_hash(a, x):
         i = (i + k) % M # tabela circular
     # encontrou
     return i
+
+
+def main():
+    while True:
+         # Pedir o nome do arquivo de origem (‘fim’: break)
+        arq = input('Nome do arquivo de origem: ')
+        if arq == 'fim': break
+        else: arq = open(arq, 'r')
+         # Ler o arquivo de origem e colocar em TAB (já com split(‘,’) dos campos)
+        TAB = func(arq)
+        
+        while True:
+            search = input('Procurar nome: ')
+            if search == 'fim': break
+            else: busca_hash(TAB, search)
+
+main()
