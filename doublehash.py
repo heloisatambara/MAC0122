@@ -1,3 +1,6 @@
+# MAC122 - PDA
+# EP3 - Busca com duplo hash
+# Heloísa Tambara - 12556819 
 
  # função para leitura dos arquivos
 def func(arq):
@@ -20,7 +23,7 @@ def primo(a): # devolve os divisores de um número
     divisores = []
     for i in range(a):
         if i != 0 and i != a - 1:
-            if a % (i + 1 )== 0:
+            if a % (i + 1 ) == 0:
                 divisores.append(i+1)
     return divisores
 
@@ -69,15 +72,16 @@ def busca_hash(a, x):
     k = hash2(M)
     # procura x a partir da posição i
     while a[i] == None or a[i][0] != x:
-        if a[i] == None: return -1 # não achou x, pois há uma vazia
+        if a[i] == None: return -1, cont # não achou x, pois há uma vazia
         cont += 1 # conta os elementos da tabela
-        if cont == M: return -2; # a tabela está cheia
+        if cont == M: return -2, cont; # a tabela está cheia
         i = (i + k) % M # tabela circular
     # encontrou
-    return i
+    return i, cont # devolve o índice do valor na tabela hash e a quantidade de comparações feitas para encontrá-lo
 
 
 def main():
+    prep = ['da', 'de', 'do', 'e', 'dos', 'das', 'del']
     while True:
          # Pedir o nome do arquivo de origem (‘fim’: break)
         arq = input('Nome do arquivo de origem: ')
@@ -87,18 +91,31 @@ def main():
             arq = open(arq, 'r')
              # Ler o arquivo de origem e colocar em TABarq
             TABarq = func(arq)
-            tmax = 2*len(TABarq)#*len(TABarq[0][1])
-            TAB = tmax * [None]
+            tmax = len(TABarq)*len(TABarq[0][1]) 
+            TAB = tmax * [None] # cria a tabela hash
             for k in range(len(TABarq)):
                 for j in range(len(TABarq[k][1])):
-                    insere_hash(TAB, TABarq[k][1][j], k)
-            print(TAB)
+                    if TABarq[k][1][j] not in prep:
+                        insere_hash(TAB, TABarq[k][1][j], k) # insere os nomes - desconsidera preposições
         
         while True:
-            search = str.capitalize(input('Procurar nome: ')) # capitalize ajusta o valor de maiúsculas e minúsculas
+            search = str.capitalize(input('\nProcurar nome: ')) # capitalize ajusta o valor de maiúsculas e minúsculas - preposições não são capitalizadas, portanto não serão encontradas
             if search == 'Fim':
                 arq.close() # fecha o arquivo para abrir um próximo
                 break
-            else: print(busca_hash(TAB, search))
+            else:
+                print()
+                aux = busca_hash(TAB, search)[0]
+                if aux >= 0: # se encontrar o nome
+                    linhas = TAB[aux] # imprime as linhas da tabela original em que o nome aparece
+                    for k in range(1, len(linhas)): 
+                        info = TABarq[linhas[k]]
+                        print(f'{info[0]},', end='')
+                        for j in range(len(info[1])):
+                            print(f' {info[1][j]}', end='') 
+                        print(f', {info[2]}')
 
+                else:
+                    print('Valor não encontrado.') 
+                print(f'\n* * * {busca_hash(TAB, search)[1] + 1} comparações para localizar os nomes') # quantas comparações foram feitas
 main()
